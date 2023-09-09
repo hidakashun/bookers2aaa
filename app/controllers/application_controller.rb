@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for(resource)
-    users_path(current_user)#ログイン後の遷移先指定
+    user_path(resource)#ログイン後の遷移先指定
   end
 
   def after_sign_out_path_for(resource)
