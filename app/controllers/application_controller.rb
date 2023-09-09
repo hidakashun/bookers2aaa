@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:top, :about]
+  #before_action :authenticate_user! ログインしていない状態で特定のページへ遷移させたい場合に使用する
+  #except: [:top, :about] ログインしていないときどのページなら遷移できるか指定している。
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   private
