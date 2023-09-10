@@ -14,4 +14,18 @@ class Book < ApplicationRecord
   end
   #favorited_by?メソッド
   #このメソッドで、引数で渡されたユーザidがFavoritesテーブル内に存在（exists?）するかどうかを調べます。
+
+  #検索機能、条件分岐
+  def self.search_for(content, method)
+    if method == 'perfect'
+      Book.where(title: content)
+    elsif method == 'forward'
+      Book.where('title LIKE ?', content+'%')
+    elsif method == 'backward'
+      Book.where('title LIKE ?', '%'+content)
+    else
+      Book.where('title LIKE ?', '%'+content+'%')
+    end
+  end
+
 end
