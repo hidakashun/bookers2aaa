@@ -1,4 +1,5 @@
 <%= form_with(model:[book, book_comment], local: false) do |f| %>
+<!--local: trueを入力すれば、非同期通信をキャンセルし、HTMLとしてフォームの送信がされる。今回はbook_comment_controllerの記述がjavaを持ってくるようにしているのでエラーになる。-->
   <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに", class: "w-100 comment-textarea" %>
   <%= f.submit "送信する", class: "btn btn-lg btn-base-1 mt-20 pull-right" %>
 <% end %>
