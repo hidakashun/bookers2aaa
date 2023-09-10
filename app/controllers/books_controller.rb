@@ -4,7 +4,8 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
-    @book_new = Book.new
+    @book_new = Book.new#いらない？
+    @book_comment = BookComment.new
   end
 
   def index
@@ -24,7 +25,7 @@ class BooksController < ApplicationController
   end
 
   def edit
-    @book = Book.find(params[:id])
+    @book = Book.find(params[:id])#いらない？
   end
 
   def update
