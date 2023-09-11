@@ -54,4 +54,8 @@ class User < ApplicationRecord
     end
   end
 
+  #本の投稿一覧ページで、過去一週間でいいねの合計カウントが多い順に投稿を表示(今回はすでに実装済みのためコメントアウトして表示)
+  #has_many :books, dependent: :destroy
+  #has_many :favorites, dependent: :destroy
+  
 end

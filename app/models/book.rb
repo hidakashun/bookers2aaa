@@ -15,6 +15,12 @@ class Book < ApplicationRecord
   #favorited_by?メソッド
   #このメソッドで、引数で渡されたユーザidがFavoritesテーブル内に存在（exists?）するかどうかを調べます。
 
+  #本の投稿一覧ページで、過去一週間でいいねの合計カウントが多い順に投稿を表示#ここから
+  has_many :week_favorites, -> { where(created_at: ((Time.current.at_end_of_day - 6.day).at_beginning_of_day)..(Time.current.at_end_of_day)) }, class_name: 'Favorite'
+  #belongs_to :user
+  #has_many :favorites, dependent: :destroy
+  #ここまで
+
   #検索機能、条件分岐
   def self.search_for(content, method)
     if method == 'perfect'

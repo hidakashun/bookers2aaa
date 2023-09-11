@@ -9,7 +9,17 @@ class BooksController < ApplicationController
   end
 
   def index
-    @books = Book.all
+    #本の投稿一覧ページで、過去一週間でいいねの合計カウントが多い順に投稿を表示
+    to  = Time.current.at_end_of_day
+    #現在の日時を表す Time.current を当日の終わりの時間に設定。
+    #at_end_of_day は ActiveSupport::TimeWithZone クラスのメソッドで、その日の終わりを表す時刻（23:59:59.999999）を返している。
+    from  = (to - 6.day).at_beginning_of_day
+    #at_beginning_of_day　は1日の始まりの時刻を0:00に設定している。
+    @books = Book.all.sort {|a,b|
+      b.favorites.where(created_at: from...to).size <=>
+      a.favorites.where(created_at: from...to).size
+    }
+    #ここまで
     @book = Book.new
   end
 
@@ -25,7 +35,6 @@ class BooksController < ApplicationController
   end
 
   def edit
-    @book = Book.find(params[:id])#いらない？
   end
 
   def update
