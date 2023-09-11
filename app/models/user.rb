@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :chats
   has_many :rooms, through: :user_rooms
 
+  #ページの閲覧数をカウントし、投稿一覧、投稿詳細に表示させる
+  has_many :view_counts, dependent: :destroy
 
   #いいね機能
   has_many :favorites, dependent: :destroy

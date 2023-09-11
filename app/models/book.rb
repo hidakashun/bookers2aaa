@@ -9,6 +9,9 @@ class Book < ApplicationRecord
   #コメント機能
   has_many :book_comments, dependent: :destroy
 
+  #ページの閲覧数をカウントし、投稿一覧、投稿詳細に表示させる
+  has_many :view_counts, dependent: :destroy
+
   def favorited_by?(user)
     favorites.where(user_id: user.id).exists?
   end

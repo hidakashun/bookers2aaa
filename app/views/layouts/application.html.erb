@@ -14,9 +14,11 @@
     <%= render 'layouts/header' %>
       <main>
         <p id="notice"><%= notice %></p>
+        <% unless current_page?(root_path) %><!--root_pasuを表示しているときは、unless～endの間を表示しない-->
         <div class="d-flex justify-content-center mb-2"><!--検索機能-->
           <%= render 'searches/form' %><!--検索機能-->
         </div><!--検索機能-->
+        <% end %>
         <%= yield %>
       </main>
     <%= render 'layouts/footer' %>

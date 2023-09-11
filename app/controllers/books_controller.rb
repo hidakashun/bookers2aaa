@@ -4,6 +4,11 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
+    #ページの閲覧数をカウントし、投稿一覧、投稿詳細に表示させる
+    unless ViewCount.find_by(user_id: current_user.id, book_id: @book.id)
+      current_user.view_counts.create(book_id: @book.id)
+    end
+    #ページの閲覧数をカウントし、投稿一覧、投稿詳細に表示させる
     @book_comment = BookComment.new
   end
 
@@ -37,7 +42,7 @@ class BooksController < ApplicationController
   end
 
   def update
-    @book = Book.find(params[:id])
+    @book = Book.find(params[:id])#いらない？
     if @book.update(book_params)
       redirect_to book_path(@book), notice: "You have updated book successfully."
     else
