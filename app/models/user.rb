@@ -8,6 +8,12 @@ class User < ApplicationRecord
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
   validates :introduction, length: {maximum: 50}
 
+  #ユーザ同士で 1 対 1 の DM ができるようにする
+  has_many :user_rooms
+  has_many :chats
+  has_many :rooms, through: :user_rooms
+
+
   #いいね機能
   has_many :favorites, dependent: :destroy
 
@@ -57,5 +63,5 @@ class User < ApplicationRecord
   #本の投稿一覧ページで、過去一週間でいいねの合計カウントが多い順に投稿を表示(今回はすでに実装済みのためコメントアウトして表示)
   #has_many :books, dependent: :destroy
   #has_many :favorites, dependent: :destroy
-  
+
 end
