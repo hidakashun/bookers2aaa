@@ -27,4 +27,6 @@ Rails.application.routes.draw do
     #検索機能
     get '/search', to: 'searches#search'
 
+    #ユーザ同士で 1 対 1 の DM ができるようにする
+    resources :chats, only: [:show, :create]
 end
