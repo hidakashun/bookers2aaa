@@ -18,10 +18,17 @@ class Book < ApplicationRecord
   #favorited_by?メソッド
   #このメソッドで、引数で渡されたユーザidがFavoritesテーブル内に存在（exists?）するかどうかを調べます。
 
-  #本の投稿一覧ページで、過去一週間でいいねの合計カウントが多い順に投稿を表示#ここから
+  #ここから本の投稿一覧ページで、過去一週間でいいねの合計カウントが多い順に投稿を表示
   has_many :week_favorites, -> { where(created_at: ((Time.current.at_end_of_day - 6.day).at_beginning_of_day)..(Time.current.at_end_of_day)) }, class_name: 'Favorite'
   #belongs_to :user
   #has_many :favorites, dependent: :destroy
+  #ここまで
+
+  #ここから投稿数の前日比/前週比を表示
+  scope :created_today, -> { where(created_at: Time.zone.now.all_day) } # 今日
+  scope :created_yesterday, -> { where(created_at: 1.day.ago.all_day) } # 前日
+  scope :created_this_week, -> { where(created_at: 6.day.ago.beginning_of_day..Time.zone.now.end_of_day) } #今週
+  scope :created_last_week, -> { where(created_at: 2.week.ago.beginning_of_day..1.week.ago.end_of_day) } # 前週
   #ここまで
 
   #検索機能、条件分岐
@@ -36,10 +43,5 @@ class Book < ApplicationRecord
       Book.where('title LIKE ?', '%'+content+'%')
     end
   end
-
-  scope :created_today, -> { where(created_at: Time.zone.now.all_day) }#7b
-  scope :created_yesterday, -> { where(created_at: 1.day.ago.all_day) }#7b
-  scope :created_this_week, -> { where(created_at: 6.day.ago.beginning_of_day..Time.zone.now.end_of_day) }#7b
-  scope :created_last_week, -> { where(created_at: 2.week.ago.beginning_of_day..1.week.ago.end_of_day) }#7b
 
 end
