@@ -8,7 +8,9 @@
     <script src="https://kit.fontawesome.com/cdce8a28a2.js" crossorigin="anonymous"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!--chart.js導入（グラフを描画するためのライブラリ）-->
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script--><!--グラフのY軸を設定できなかった-->
+
   </head>
   <body>
     <%= render 'layouts/header' %>
