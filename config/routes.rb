@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     #そのため、URLに/:idを含めない形にしている！！
   end
   resources :users, only: [:index,:show,:edit,:update] do
+    #指定した日の記録(投稿数)を非同期で表示する
+    get "search" => "users#search"
+
     #Userと、Relationshipは関連づけられているためuserのidが必要
     #relationshipsをネストする
     resource :relationships, only: [:create, :destroy]
