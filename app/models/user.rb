@@ -31,11 +31,11 @@ class User < ApplicationRecord
   has_many :relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
   # 与フォロー関係を通じて参照→自分がフォローしている人
   has_many :followings, through: :relationships, source: :followed
-  #　フォローしたときの処理
+  #  フォローしたときの処理
   def follow(user)
     relationships.create(followed_id: user.id)
   end
-  #　フォローを外すときの処理
+  #  フォローを外すときの処理
   def unfollow(user)
     relationships.find_by(followed_id: user.id).destroy
   end

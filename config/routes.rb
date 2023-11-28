@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'rails/g'
+  get 'rails/controller'
+  get 'rails/notifications'
   devise_for :users
 
   root :to =>"homes#top"
