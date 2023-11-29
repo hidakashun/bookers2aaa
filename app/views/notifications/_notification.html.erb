@@ -1,0 +1,54 @@
+<% notifications.each do |notification| %>
+  <% visitor = notification.visitor %>
+  <% visited = notification.visited %>
+<div class="notification-box d-flex align-items-center">
+  <div class="notification-icon">
+    <%= link_to user_path(visitor), data: { turbolinks: false }%>
+  </div>
+
+      <!-- 通知の種類に応じて表示内容を切り替え -->
+<% case notification.action %>
+<% when 'follow' %>
+  <!-- フォロー通知の場合 -->
+  <strong><%= visitor.name %></strong>さんがあなたをフォローしました
+<% when 'favorite_book' %>
+  <!-- 投稿がいいねされた通知の場合 -->
+  <%= link_to book_path(notification.book) do %>
+    <strong><%= visitor.name %></strong>さんが<strong><%= truncate(notification.book.title, length: 10) %></strong>の投稿にいいねしました
+  <% end %>
+<% when 'favorite_comment' %>
+  <!-- コメントがいいねされた通知の場合 -->
+  <%= link_to book_path(notification.comment.book) do %>
+    <strong><%= visitor.name %></strong>さんが<strong>あなたのコメント</strong>にいいねしました
+  <% end %>
+<% when 'comment' %>
+  <!-- コメントが投稿された通知の場合 -->
+  <% if notification.book.user_id == visited.id %>
+    <!-- 自分自身の投稿へのコメントの場合 -->
+    <%= link_to book_path(notification.book) do %>
+      <strong><%= visitor.name %></strong>さんが<strong><%= truncate(notification.book.title, length: 10) %></strong>の投稿にコメントしました
+      <% comment = Comment.find_by(id: notification.comment_id) %>
+      <div class="notification-comment">
+        <%= truncate(comment&.comment, length: 30) %>
+      </div>
+    <% end %>
+  <% else %>
+    <!-- 投稿者が異なり自身がコメントした投稿に他のユーザーがコメントした場合 -->
+    <span>
+      <%= link_to book_path(notification.book) do %>
+        <strong><%= visitor.name %></strong>さんが<strong><%= notification.book.user.name + 'さんの投稿' %></strong>にコメントしました
+        <% comment = Comment.find_by(id: notification.comment_id) %>
+        <div class="notification-comment">
+          <%= truncate(comment&.comment, length: 30) %>
+        </div>
+      <% end %>
+    </span>
+  <% end %>
+<% end %>
+
+    </div>
+    <div class="small text-muted text-right">
+      <%= time_ago_in_words(notification.created_at).upcase %>前
+    </div>
+  </div>
+<% end %>

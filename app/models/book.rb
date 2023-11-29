@@ -53,4 +53,44 @@ class Book < ApplicationRecord
       Book.where('title LIKE ?', '%'+content+'%')
     end
   end
+
+  #通知機能
+  has_many :notifications, dependent: :destroy
+  # bookへのいいね通知機能
+  def create_notification_favorite_book!(current_user)
+    # 同じユーザーが同じ投稿に既にいいねしていないかを確認
+    existing_notification = Notification.find_by(book_id: self.id, visitor_id: current_user.id, action: "favorite_book")
+
+    # すでにいいねされていない場合のみ通知レコードを作成
+    if existing_notification.nil? && current_user != self.user
+      notification = Notification.new(
+        book_id: self.id,
+        visitor_id: current_user.id,
+        visited_id: self.user.id,
+        action: "favorite_book"
+      )
+
+      if notification.valid?
+        notification.save
+      end
+    end
+  end
+
+    unless method_defined?(:create_notification_comment!)
+    def create_notification_comment!(current_user, comment_id)
+      existing_notification = Notification.find_by(book_id: self.id, visitor_id: current_user.id, action: "comment")
+
+      if existing_notification.nil? && current_user != self.user
+        notification = Notification.new(
+          book_id: self.id,
+          visitor_id: current_user.id,
+          visited_id: self.user.id,
+          action: "comment",
+          comment_id: comment_id
+        )
+
+        notification.save if notification.valid?
+      end
+    end
+  end
 end

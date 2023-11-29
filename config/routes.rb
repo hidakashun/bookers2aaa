@@ -33,4 +33,9 @@ Rails.application.routes.draw do
 
     #ユーザ同士で 1 対 1 の DM ができるようにする
     resources :chats, only: [:show, :create]
+
+    #通知機能
+    resources :notifications, only: [:index] do
+      post :update_checked, on: :collection
+    end
 end
