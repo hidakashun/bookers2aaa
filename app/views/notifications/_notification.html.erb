@@ -8,18 +8,10 @@
 
       <!-- 通知の種類に応じて表示内容を切り替え -->
 <% case notification.action %>
-<% when 'follow' %>
-  <!-- フォロー通知の場合 -->
-  <strong><%= visitor.name %></strong>さんがあなたをフォローしました
 <% when 'favorite_book' %>
   <!-- 投稿がいいねされた通知の場合 -->
   <%= link_to book_path(notification.book) do %>
     <strong><%= visitor.name %></strong>さんが<strong><%= truncate(notification.book.title, length: 10) %></strong>の投稿にいいねしました
-  <% end %>
-<% when 'favorite_comment' %>
-  <!-- コメントがいいねされた通知の場合 -->
-  <%= link_to book_path(notification.comment.book) do %>
-    <strong><%= visitor.name %></strong>さんが<strong>あなたのコメント</strong>にいいねしました
   <% end %>
 <% when 'comment' %>
   <!-- コメントが投稿された通知の場合 -->
@@ -27,7 +19,7 @@
     <!-- 自分自身の投稿へのコメントの場合 -->
     <%= link_to book_path(notification.book) do %>
       <strong><%= visitor.name %></strong>さんが<strong><%= truncate(notification.book.title, length: 10) %></strong>の投稿にコメントしました
-      <% comment = Comment.find_by(id: notification.comment_id) %>
+      <% comment = BookComment.find_by(id: notification.comment_id) %>
       <div class="notification-comment">
         <%= truncate(comment&.comment, length: 30) %>
       </div>
