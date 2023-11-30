@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2023_11_29_041400) do
     t.integer "visitor_id", null: false
     t.integer "visited_id", null: false
     t.integer "book_id"
-    t.integer "comment_id"
+    t.integer "book_comment_id"
     t.integer "favorite_id"
     t.string "action", default: "", null: false
     t.boolean "is_checked", default: false, null: false

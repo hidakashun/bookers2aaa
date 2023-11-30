@@ -76,19 +76,21 @@ class Book < ApplicationRecord
     end
   end
 
-    unless method_defined?(:create_notification_comment!)
+  unless method_defined?(:create_notification_comment!)
     def create_notification_comment!(current_user, comment_id)
       existing_notification = Notification.find_by(book_id: self.id, visitor_id: current_user.id, action: "comment")
-
+  
       if existing_notification.nil? && current_user != self.user
         notification = Notification.new(
           book_id: self.id,
           visitor_id: current_user.id,
           visited_id: self.user.id,
-          action: "comment",
-          comment_id: comment_id
+          action: "comment"
         )
-
+  
+        # カラムが存在する場合のみセットする
+        notification.comment_id = comment_id if Notification.column_names.include?('comment_id')
+  
         notification.save if notification.valid?
       end
     end

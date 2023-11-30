@@ -19,9 +19,9 @@
     <!-- 自分自身の投稿へのコメントの場合 -->
     <%= link_to book_path(notification.book) do %>
       <strong><%= visitor.name %></strong>さんが<strong><%= truncate(notification.book.title, length: 10) %></strong>の投稿にコメントしました
-      <% comment = BookComment.find_by(id: notification.comment_id) %>
+      <% comment = BookComment.find_by(id: notification.book_comment_id) %>
       <div class="notification-comment">
-        <%= truncate(comment&.comment, length: 30) %>
+        <%= truncate(comment&.book_comment, length: 30) %>
       </div>
     <% end %>
   <% else %>
@@ -29,9 +29,9 @@
     <span>
       <%= link_to book_path(notification.book) do %>
         <strong><%= visitor.name %></strong>さんが<strong><%= notification.book.user.name + 'さんの投稿' %></strong>にコメントしました
-        <% comment = Comment.find_by(id: notification.comment_id) %>
+        <% comment = BookComment.find_by(id: notification.book_comment_id) %>
         <div class="notification-comment">
-          <%= truncate(comment&.comment, length: 30) %>
+          <%= truncate(comment&.book_comment, length: 30) %>
         </div>
       <% end %>
     </span>

@@ -3,7 +3,7 @@ class Notification < ApplicationRecord
   default_scope -> { order(created_at: "DESC") }
 
   belongs_to :book, optional: true
-  belongs_to :comment, optional: true
+  belongs_to :book_comment, optional: true
   belongs_to :favorite, optional: true
 
   belongs_to :visitor, class_name: "User", foreign_key: "visitor_id", optional: true
